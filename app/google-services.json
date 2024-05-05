@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "161473907367",
+    "firebase_url": "https://threadclone-6989c-default-rtdb.firebaseio.com",
+    "project_id": "threadclone-6989c",
+    "storage_bucket": "threadclone-6989c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:161473907367:android:c72fbc9cb8ebfa08ea2982",
+        "android_client_info": {
+          "package_name": "com.example.cooking_social_network"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAqbuJoMR29q-ceh7dz5sBxzkDvIz5_Yg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -14,4 +14,6 @@
     <color name="red">#FF0000</color>
     <color name="intro">#db5a6b</color>
     <color name="yellow">#FFFF00</color>
+    <color name="colorPrimary">#455cde</color>
+    <color name="colorAccent">#c2bdbf</color>
 </resources>
