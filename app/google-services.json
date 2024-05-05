@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "565099127491",
+    "firebase_url": "https://social-media-network-25d07-default-rtdb.firebaseio.com",
+    "project_id": "social-media-network-25d07",
+    "storage_bucket": "social-media-network-25d07.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:565099127491:android:5df5aa5ba4b8b3fd06f876",
+        "android_client_info": {
+          "package_name": "com.example.cooking_social_network"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACZdlW4UA4syHqpQ_rPCjZnT9-PhmB_wE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
