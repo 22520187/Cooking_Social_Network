@@ -2,7 +2,7 @@ package com.example.cooking_social_network.Fragments.Model;
 
 public class User {
 
-    private String fullname;
+    private String name;
     private String email;
     private String username;
     private String bio;
@@ -13,8 +13,8 @@ public class User {
 
     }
 
-    public User(String fullname, String email, String username, String bio, String imageurl, String id){
-        this.fullname = fullname;
+    public User(String name, String email, String username, String bio, String imageurl, String id){
+        this.name = name;
         this.email = email;
         this.username = username;
         this.bio = bio;
@@ -22,12 +22,12 @@ public class User {
         this.id = id;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getName() {
+        return name;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {

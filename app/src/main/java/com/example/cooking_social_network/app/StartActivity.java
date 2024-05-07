@@ -1,4 +1,4 @@
-package com.example.cooking_social_network.Fragments;
+package com.example.cooking_social_network.app;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +12,9 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cooking_social_network.R;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import com.google.firebase.auth.FirebaseAuth;
+
 
 public class StartActivity extends AppCompatActivity {
     private ImageView iconImage;
@@ -46,7 +47,16 @@ public class StartActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent( StartActivity.this , SearchFragment.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
+                startActivity(new Intent(StartActivity.this, RegisterActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
+        });
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(StartActivity.this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
+
             }
         });
     }
@@ -68,4 +78,13 @@ public class StartActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+            startActivity(new Intent(StartActivity.this,MainActivity.class));
+            finish();
+        }
+    }
 }
