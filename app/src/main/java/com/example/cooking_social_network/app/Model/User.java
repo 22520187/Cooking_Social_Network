@@ -1,4 +1,4 @@
-package com.example.cooking_social_network.Fragments.Model;
+package com.example.cooking_social_network.app.Model;
 
 public class User {
 

@@ -40,7 +40,6 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.firebase.database)
-    implementation(libs.firebase.auth)
     implementation(libs.activity)
     implementation(libs.firebase.functions)
     implementation(libs.firebase.crashlytics.buildtools)
@@ -62,5 +61,8 @@ dependencies {
     // auto-complete widgets
     implementation ("com.hendraanggrian.appcompat:socialview-autocomplete:0.1")
     api("com.theartofdev.edmodo:android-image-cropper:2.8.+")
+    implementation("com.squareup.picasso:picasso:2.8")
+
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
 }

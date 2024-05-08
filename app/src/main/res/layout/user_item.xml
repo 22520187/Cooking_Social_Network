@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="10dp">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/image_profile"
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/button_background"
         android:id="@+id/btn_follow"
-        android:textColor="@color/design_default_color_primary"
+        android:textColor="@color/white"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:visibility="gone" />
