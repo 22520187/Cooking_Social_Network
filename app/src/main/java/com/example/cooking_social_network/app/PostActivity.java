@@ -41,12 +41,12 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class PostActivity extends AppCompatActivity {
 
     private Uri imageUri;
     private String imageUrl;
-
     private ImageView close;
     private ImageView imageAdded;
     private TextView post;
@@ -62,6 +62,7 @@ public class PostActivity extends AppCompatActivity {
         post = findViewById(R.id.post);
         description = findViewById(R.id.description);
 
+        // khi click vao close thi se chuyen sang MainActivity
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,17 +81,26 @@ public class PostActivity extends AppCompatActivity {
         CropImage.activity().start(PostActivity.this);
     }
 
+    /*Hàm này xử lý việc tải ảnh lên Firebase Storage,
+    tạo bài đăng mới trong Firebase Database và điều hướng quay lại trang chính.*/
     private void upload() {
 
+        // Tạo một hộp thoại tiến trình để hiển thị cho người dùng tiến trình tải lên.
         ProgressDialog pd = new ProgressDialog(this);
         pd.setMessage("Uploading");
         pd.show();
 
+        // Kiểm tra xem người dùng đã chọn ảnh hay chưa.
         if (imageUri != null){
+
+            // Tạo một tham chiếu đến thư mục "Posts" trên Firebase Storage để lưu trữ ảnh được tải lên.
             StorageReference filePath = FirebaseStorage.getInstance().getReference("Posts")
                     .child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
 
+            // Tải ảnh được chọn lên Firebase Storage.
             StorageTask uploadtask = filePath.putFile(imageUri);
+
+            // Kết nối hai tác vụ bất đồng bộ: tải ảnh và sau đó lấy URL tải xuống.
             uploadtask.continueWithTask(new Continuation() {
                 @Override
                 public Object then(@NonNull Task task) throws Exception {
@@ -98,6 +108,7 @@ public class PostActivity extends AppCompatActivity {
                         throw task.getException();
                     }
 
+                    // Lấy URL tải xuống của ảnh đã tải lên.
                     return filePath.getDownloadUrl();
                 }
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -106,17 +117,21 @@ public class PostActivity extends AppCompatActivity {
                     Uri downloadUri = task.getResult();
                     imageUrl = downloadUri.toString();
 
+                    // Tạo một tham chiếu đến nút "Posts" trong Firebase Database.
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Posts");
                     String postId = ref.push().getKey();
 
+                    // Tạo một map để lưu trữ dữ liệu bài đăng.
                     HashMap<String , Object> map = new HashMap<>();
                     map.put("postId" , postId);
                     map.put("imageUrl" , imageUrl);
                     map.put("description" , description.getText().toString());
                     map.put("publisher" , FirebaseAuth.getInstance().getCurrentUser().getUid());
 
+                    // Lưu dữ liệu bài đăng vào cơ sở dữ liệu dưới ID bài đăng duy nhất.
                     ref.child(postId).setValue(map);
 
+                    // Tùy chọn: Lưu hashtag nếu có.
                     DatabaseReference mHashTagRef = FirebaseDatabase.getInstance().getReference().child("HashTags");
                     List<String> hashTags = description.getHashtags();
                     if (!hashTags.isEmpty()){
@@ -130,40 +145,61 @@ public class PostActivity extends AppCompatActivity {
                         }
                     }
 
+                    // Thoát khỏi hộp thoại tiến trình.
                     pd.dismiss();
+
+                    // Điều hướng quay lại trang chính và kết thúc hoạt động hiện tại.
                     startActivity(new Intent(PostActivity.this , MainActivity.class));
                     finish();
                 }
             }).addOnFailureListener(new OnFailureListener() {
+                // Xử lý bất kỳ lỗi nào khác trong quá trình.
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Toast.makeText(PostActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
+            // Thông báo cho người dùng nếu họ chưa chọn ảnh để tải lên.
             Toast.makeText(this, "No image was selected!", Toast.LENGTH_SHORT).show();
         }
 
     }
 
+    // Hàm này lấy phần mở rộng của file từ URI của ảnh.
     private String getFileExtension(Uri uri) {
 
-        return MimeTypeMap.getSingleton().getExtensionFromMimeType(this.getContentResolver().getType(uri));
+        // Lấy đối tượng MimeTypeMap để truy cập thông tin về các loại MIME.
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
 
+        // Lấy loại MIME của file từ URI.
+        String mimeType = this.getContentResolver().getType(uri);
+
+        // Sử dụng loại MIME để lấy phần mở rộng của file.
+        return mimeTypeMap.getExtensionFromMimeType(mimeType);
+//      return MimeTypeMap.getSingleton().getExtensionFromMimeType(this.getContentResolver().getType(uri));
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
+        // Kiểm tra kết quả trả về từ thư viện cắt ảnh CropImage.
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            // Lấy kết quả cắt ảnh.
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+            // Cập nhật URI của ảnh đã được cắt.
             imageUri = result.getUri();
 
+            // Hiển thị ảnh đã cắt lên ImageView.
             imageAdded.setImageURI(imageUri);
         } else {
-            Toast.makeText(this, "Try again!", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(PostActivity.this , MainActivity.class));
+            // Xử lý trường hợp cắt ảnh thất bại.
+            Toast.makeText(this, "Thử lại!", Toast.LENGTH_SHORT).show();
+
+            // Điều hướng về trang chính và kết thúc hoạt động hiện tại.
+            startActivity(new Intent(PostActivity.this, MainActivity.class));
             finish();
         }
     }
@@ -172,13 +208,24 @@ public class PostActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        // Khởi tạo bộ chuyển đổi ArrayAdapter cho danh sách Hashtag.
         final ArrayAdapter<Hashtag> hashtagAdapter = new HashtagArrayAdapter<>(getApplicationContext());
 
-        FirebaseDatabase.getInstance().getReference().child("HashTags").addValueEventListener(new ValueEventListener() {
+        // Lấy tham chiếu đến nút "HashTags" trong Firebase Database.
+        DatabaseReference mHashTagRef = FirebaseDatabase.getInstance().getReference().child("HashTags");
+
+        // Thêm lắng nghe sự kiện thay đổi dữ liệu trên nút "HashTags".
+        mHashTagRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Duyệt qua các Hashtag con.
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    hashtagAdapter.add(new Hashtag(snapshot.getKey() , (int) snapshot.getChildrenCount()));
+                    // Lấy tên Hashtag và số lượng bài đăng liên quan.
+                    String hashtag = snapshot.getKey();
+                    int count = (int) snapshot.getChildrenCount();
+
+                    // Thêm Hashtag mới vào bộ chuyển đổi.
+                    hashtagAdapter.add(new Hashtag(hashtag, count));
                 }
             }
 
@@ -188,6 +235,7 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
+        // Thiết lập bộ chuyển đổi Hashtag cho EditText description.
         description.setHashtagAdapter(hashtagAdapter);
     }
 }

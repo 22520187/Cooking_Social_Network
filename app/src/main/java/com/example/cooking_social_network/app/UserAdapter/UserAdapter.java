@@ -1,4 +1,4 @@
-package com.example.cooking_social_network.Fragments.UserAdapter;
+package com.example.cooking_social_network.app.UserAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.cooking_social_network.Fragments.Model.User;
+import com.example.cooking_social_network.app.Model.User;
 import com.example.cooking_social_network.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,17 +24,19 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
     private Context mContext;
     private List<User> mUsers;
-    private boolean isFargment;
+    private boolean isFragment;
     private FirebaseUser firebaseUser;
 
-    public UserAdapter(Context mContext, List<User> mUsers, boolean isFargment) {
+    public UserAdapter(Context mContext, List<User> mUsers, boolean isFragment) {
         this.mContext = mContext;
         this.mUsers = mUsers;
-        this.isFargment = isFargment;
+        this.isFragment = isFragment;
         this.firebaseUser = firebaseUser;
     }
 
@@ -62,6 +64,26 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         if(user.getId().equals(firebaseUser.getUid())){
             holder.btnFollow.setVisibility((View.GONE));
         }
+
+        holder.btnFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.btnFollow.getText().toString().equals(("follow"))){
+                    FirebaseDatabase.getInstance().getReference().child("Follow").
+                            child((firebaseUser.getUid())).child("following").child(user.getId()).setValue(true);
+
+                    FirebaseDatabase.getInstance().getReference().child("Follow").
+                            child(user.getId()).child("followers").child(firebaseUser.getUid()).setValue(true);
+
+                } else {
+                    FirebaseDatabase.getInstance().getReference().child("Follow").
+                            child((firebaseUser.getUid())).child("following").child(user.getId()).removeValue();
+
+                    FirebaseDatabase.getInstance().getReference().child("Follow").
+                            child(user.getId()).child("followers").child(firebaseUser.getUid()).removeValue();
+                }
+            }
+        });
     }
 
     private void isFollowed(String id, Button btnFolllow){
@@ -71,8 +93,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.child(id).exists())
-                    btnFolllow.setText("Following");
-                else btnFolllow.setText("Follow");
+                    btnFolllow.setText("following");
+                else btnFolllow.setText("follow");
             }
 
             @Override
@@ -88,13 +110,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        public AppCompatImageView imageProfile;
+        public CircleImageView imageProfile;
         public TextView username;
-
         public TextView fullname;
         public Button btnFollow;
 
-        public ViewHolder(@NonNull View itemView){
+            public ViewHolder(@NonNull View itemView){
             super(itemView);
 
             imageProfile = itemView.findViewById(R.id.image_profile);
