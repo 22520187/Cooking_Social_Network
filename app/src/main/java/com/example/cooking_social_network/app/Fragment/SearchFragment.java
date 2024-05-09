@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +22,21 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.local.QueryContext;
 import com.hendraanggrian.appcompat.socialview.widget.SocialAutoCompleteTextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public class SearchFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private List <User> mUsers;
     private UserAdapter userAdapter;
-    private SearchView search_bar;
+    private SocialAutoCompleteTextView search_bar;
 
 
     @Override
@@ -48,6 +53,24 @@ public class SearchFragment extends Fragment {
         search_bar = view.findViewById(R.id.search_bar);
 
         readUser();
+        
+        search_bar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                searchUser(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         return view;
     }
 
@@ -58,7 +81,7 @@ public class SearchFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(TextUtils.isEmpty(search_bar.getQuery().toString())){
+                if(TextUtils.isEmpty(search_bar.getText().toString())){
                     mUsers.clear();
                     for (DataSnapshot snapshot1 : snapshot.getChildren()){
                         User user = snapshot1.getValue(User.class);
@@ -67,6 +90,28 @@ public class SearchFragment extends Fragment {
 
                     userAdapter.notifyDataSetChanged();
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void searchUser(String s){
+        Query query = FirebaseDatabase.getInstance().getReference().child("Users")
+                .orderByChild("username").startAt(s).endAt(s + "\uf8ff");
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mUsers.clear();
+                for (DataSnapshot snapshot1 : snapshot.getChildren()){
+                    User user = snapshot1.getValue(User.class);
+                    mUsers.add(user);
+                }
+                userAdapter.notifyDataSetChanged();
             }
 
             @Override
