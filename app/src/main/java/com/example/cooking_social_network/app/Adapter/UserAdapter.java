@@ -1,4 +1,4 @@
-package com.example.cooking_social_network.app.UserAdapter;
+package com.example.cooking_social_network.app.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cooking_social_network.app.Model.User;

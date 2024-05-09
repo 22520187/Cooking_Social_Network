@@ -1,4 +1,4 @@
-package com.example.cooking_social_network.app.UserAdapter;
+package com.example.cooking_social_network.app.Adapter;
 
 import android.content.Context;
 import android.content.Intent;

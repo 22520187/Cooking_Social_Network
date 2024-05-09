@@ -1,10 +1,8 @@
 package com.example.cooking_social_network.app.Fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.cooking_social_network.R;
 import com.example.cooking_social_network.app.Model.Post;
-import com.example.cooking_social_network.app.UserAdapter.PostAdapter;
+import com.example.cooking_social_network.app.Adapter.PostAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

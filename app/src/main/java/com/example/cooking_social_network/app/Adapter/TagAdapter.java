@@ -1,4 +1,4 @@
-package com.example.cooking_social_network.app.UserAdapter;
+package com.example.cooking_social_network.app.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.cooking_social_network.R;
-import com.google.firebase.database.core.Tag;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
