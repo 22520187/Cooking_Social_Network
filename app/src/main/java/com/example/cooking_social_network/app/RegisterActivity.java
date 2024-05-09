@@ -33,10 +33,12 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText password;
     private Button register;
     private TextView loginUser;
+
     private DatabaseReference mRootRef;
     private FirebaseAuth mAuth;
 
     ProgressDialog pd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,14 +50,15 @@ public class RegisterActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         register = findViewById(R.id.register);
         loginUser = findViewById(R.id.login_user);
-        pd = new ProgressDialog(this);
 
         mRootRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+        pd = new ProgressDialog(this);
+
         loginUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
+                startActivity(new Intent(RegisterActivity.this , LoginActivity.class));
             }
         });
 
@@ -67,52 +70,58 @@ public class RegisterActivity extends AppCompatActivity {
                 String txtEmail = email.getText().toString();
                 String txtPassword = password.getText().toString();
 
-                if(TextUtils.isEmpty(txtUsername) || TextUtils.isEmpty(txtName)
-                        || TextUtils.isEmpty(txtEmail)|| TextUtils.isEmpty(txtPassword)) {
-                    Toast.makeText(RegisterActivity.this,"Empty credentials!", Toast.LENGTH_SHORT).show();
-                } else if (txtPassword.length() < 6 ) {
-                    Toast.makeText(RegisterActivity.this,"Password too short!", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(txtUsername) || TextUtils.isEmpty(txtName)
+                        || TextUtils.isEmpty(txtEmail) || TextUtils.isEmpty(txtPassword)){
+                    Toast.makeText(RegisterActivity.this, "Empty credentials!", Toast.LENGTH_SHORT).show();
+                } else if (txtPassword.length() < 6){
+                    Toast.makeText(RegisterActivity.this, "Password too short!", Toast.LENGTH_SHORT).show();
                 } else {
-                    registerUser(txtUsername,txtName,txtEmail,txtPassword);
+                    registerUser(txtUsername , txtName , txtEmail , txtPassword);
                 }
             }
         });
     }
 
-    private void registerUser(String username, String name, String email, String password) {
-        pd.setMessage("Please wait!");
+    private void registerUser(final String username, final String name, final String email, String password) {
+
+        pd.setMessage("Please Wait!");
         pd.show();
-        mAuth.createUserWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+
+        mAuth.createUserWithEmailAndPassword(email , password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                HashMap<String,Object> map = new HashMap<>();
-                map.put("name", name);
-                map.put("email",email);
-                map.put("username",username);
-                map.put("id",mAuth.getCurrentUser().getUid());
 
-                mRootRef.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(map)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                HashMap<String , Object> map = new HashMap<>();
+                map.put("name" , name);
+                map.put("email", email);
+                map.put("username" , username);
+                map.put("id" , mAuth.getCurrentUser().getUid());
+                map.put("bio" , "");
+                map.put("imageurl" , "default");
+
+                mRootRef.child("Users").child(mAuth.getCurrentUser().getUid()).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()) {
+                        if (task.isSuccessful()){
                             pd.dismiss();
-                            Toast.makeText(RegisterActivity.this,"Update the profile " +
-                                    "for better experience!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                            Toast.makeText(RegisterActivity.this, "Update the profile " +
+                                    "for better expereince", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(RegisterActivity.this , MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                             finish();
                         }
                     }
                 });
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 pd.dismiss();
-                Toast.makeText(RegisterActivity.this,e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 }

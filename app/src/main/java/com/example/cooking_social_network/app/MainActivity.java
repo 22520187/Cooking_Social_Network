@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import com.example.cooking_social_network.R;
 import com.example.cooking_social_network.app.Fragment.HomeFragment;
 import com.example.cooking_social_network.app.Fragment.NotificationFragment;
-import com.example.cooking_social_network.app.Fragment.PostFragment;
 import com.example.cooking_social_network.app.Fragment.ProfileFragment;
 import com.example.cooking_social_network.app.Fragment.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
