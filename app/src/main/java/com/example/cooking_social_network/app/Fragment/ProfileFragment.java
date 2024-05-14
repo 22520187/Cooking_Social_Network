@@ -1,66 +1,209 @@
 package com.example.cooking_social_network.app.Fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.cooking_social_network.R;
+import com.example.cooking_social_network.app.Model.Post;
+import com.example.cooking_social_network.app.Model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import de.hdodenhof.circleimageview.CircleImageView;
+
+
 public class ProfileFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private CircleImageView image_profile;
+    private ImageView options;
+    private TextView posts;
+    private TextView followers;
+    private TextView following;
+    private TextView fullname;
+    private TextView bio;
+    private TextView username;
+    private ImageButton my_fotos;
+    private ImageButton saved_fotos;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private ImageView myPictures;
+    private ImageView savedPictures;
 
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
+    private Button editProfile;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private FirebaseUser fUser;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    String profileID;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_profile, container,false  );
+
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        String data = getContext().getSharedPreferences("PROFILE", Context.MODE_PRIVATE).getString("profileId","none");
+
+        if (data.equals("none")){
+            profileID = fUser.getUid();
+        } else {
+            profileID = data;
+        }
+
+
+        image_profile = view.findViewById(R.id.image_profile);
+        options = view.findViewById(R.id.options);
+        posts = view.findViewById(R.id.posts);
+        followers = view.findViewById(R.id.followers);
+        following = view.findViewById(R.id.following);
+        fullname = view.findViewById(R.id.fullname);
+        bio = view.findViewById(R.id.bio);
+        my_fotos = view.findViewById(R.id.my_fotos);
+        username = view.findViewById(R.id.username);
+        saved_fotos = view.findViewById(R.id.saved_fotos);
+        editProfile = view.findViewById(R.id.edit_profile);
+
+        userInfo();
+        getFollowersAndFollowingCount();
+        getPostCount();
+
+        if (profileID.equals(fUser.getUid())){
+            editProfile.setText("Edit Profile");
+        } else {
+            checkFollowingStatus();
+        }
+
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String btnText = editProfile.getText().toString();
+
+                if (btnText.equals("Edit Profile")){
+                    //GOTO edit activity
+                } else {
+                    if (btnText.equals("follow")){
+                        FirebaseDatabase.getInstance().getReference().child("Follow").child(fUser.getUid())
+                                .child("following").child(profileID).setValue(true);
+
+                        FirebaseDatabase.getInstance().getReference().child("Follow").child(profileID)
+                                .child("followers").child(fUser.getUid()).setValue(true);
+                    } else {
+                        FirebaseDatabase.getInstance().getReference().child("Follow").child(fUser.getUid())
+                                .child("following").child(profileID).removeValue();
+
+                        FirebaseDatabase.getInstance().getReference().child("Follow").child(profileID)
+                                .child("followers").child(fUser.getUid()).removeValue();
+                    }
+                }
+            }
+        });
+
+        return view;
+    }
+
+    private void checkFollowingStatus() {
+        FirebaseDatabase.getInstance().getReference().child("Follow").child(fUser.getUid()).child("following").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(profileID).exists()){
+                    editProfile.setText("following");
+                } else {
+                    editProfile.setText("follow");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+    private void getPostCount() {
+        FirebaseDatabase.getInstance().getReference().child("Posts").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int counter =0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Post post = snapshot.getValue(Post.class);
+
+                    if(post.getPublisher().equals(profileID)) counter++;
+                }
+
+                posts.setText(String.valueOf(counter));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getFollowersAndFollowingCount() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("follow").child(profileID);
+
+        ref.child("followers").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                followers.setText(""+dataSnapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        ref.child("following").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                following.setText(""+dataSnapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void userInfo() {
+        FirebaseDatabase.getInstance().getReference().child("Users").child(profileID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+
+                Picasso.get().load(user.getImageurl()).into(image_profile);
+                username.setText(user.getUsername());
+                fullname.setText(user.getName());
+                bio.setText(user.getBio());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
