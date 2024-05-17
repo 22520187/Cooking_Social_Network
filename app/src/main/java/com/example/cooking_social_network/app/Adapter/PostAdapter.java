@@ -10,10 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.cooking_social_network.R;
 
 import com.example.cooking_social_network.app.CommentActivity;
+import com.example.cooking_social_network.app.Fragment.PostDetailFragment;
+import com.example.cooking_social_network.app.Fragment.ProfileFragment;
 import com.example.cooking_social_network.app.Model.Post;
 import com.example.cooking_social_network.app.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -127,7 +130,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder> {
             }
         });
 
-        holder.save.setOnClickListener(new View.OnClickListener() {
+        holder.username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (holder.save.getTag().equals("save")){
@@ -138,6 +141,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder> {
                     FirebaseDatabase.getInstance().getReference().child("Saves")
                             .child(firebaseUser.getUid()).child(post.getPostId()).removeValue();
                 }
+            }
+        });
+
+        holder.author.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mContext.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)
+                        .edit().putString("profileid", post.getPublisher()).apply();
+
+                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new ProfileFragment()).commit();
+            }
+        });
+
+        holder.postImage.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit().putString("postid", post.getPostId()).apply();
+
+                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new PostDetailFragment()).commit();
             }
         });
     }
