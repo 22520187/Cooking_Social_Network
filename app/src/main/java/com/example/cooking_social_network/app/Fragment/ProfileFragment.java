@@ -1,6 +1,7 @@
 package com.example.cooking_social_network.app.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.example.cooking_social_network.R;
 import com.example.cooking_social_network.app.Adapter.PhotoAdapter;
 import com.example.cooking_social_network.app.Adapter.PostAdapter;
+import com.example.cooking_social_network.app.FollowersActivity;
 import com.example.cooking_social_network.app.Model.Post;
 import com.example.cooking_social_network.app.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -166,6 +168,26 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 recyclerView.setVisibility(View.GONE);
                 recyclerViewSaves.setVisibility(View.VISIBLE);
+            }
+        });
+
+        followers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FollowersActivity.class);
+                intent.putExtra("id", profileID);
+                intent.putExtra("title", "followers");
+                startActivity(intent);
+            }
+        });
+
+        following.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FollowersActivity.class);
+                intent.putExtra("id", profileID);
+                intent.putExtra("title", "followings");
+                startActivity(intent);
             }
         });
 

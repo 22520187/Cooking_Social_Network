@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Social_App"
         tools:targetApi="31">
         <activity
+            android:name=".app.FollowersActivity"
+            android:exported="false" />
+        <activity
             android:name=".app.CommentActivity"
             android:exported="false" />
         <activity

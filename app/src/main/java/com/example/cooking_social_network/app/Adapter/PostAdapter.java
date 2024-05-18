@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cooking_social_network.R;
 
 import com.example.cooking_social_network.app.CommentActivity;
+import com.example.cooking_social_network.app.FollowersActivity;
 import com.example.cooking_social_network.app.Fragment.PostDetailFragment;
 import com.example.cooking_social_network.app.Fragment.ProfileFragment;
 import com.example.cooking_social_network.app.Model.Post;
@@ -163,6 +164,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder> {
 
                 ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, new PostDetailFragment()).commit();
+            }
+        });
+
+        holder.noOfLikes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, FollowersActivity.class);
+                intent.putExtra("id", post.getPublisher());
+                intent.putExtra("title", "likes");
+                mContext.startActivity(intent);
             }
         });
     }
