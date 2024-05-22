@@ -23,6 +23,7 @@ import com.example.cooking_social_network.app.Adapter.PostAdapter;
 import com.example.cooking_social_network.app.FollowersActivity;
 import com.example.cooking_social_network.app.Model.Post;
 import com.example.cooking_social_network.app.Model.User;
+import com.example.cooking_social_network.app.OptionsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -188,6 +189,13 @@ public class ProfileFragment extends Fragment {
                 intent.putExtra("id", profileID);
                 intent.putExtra("title", "followings");
                 startActivity(intent);
+            }
+        });
+
+        options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), OptionsActivity.class));
             }
         });
 
