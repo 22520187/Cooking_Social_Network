@@ -7,6 +7,7 @@ android {
     namespace = "com.example.cooking_social_network"
     compileSdk = 34
 
+
     defaultConfig {
         applicationId = "com.example.cooking_social_network"
         minSdk = 24
@@ -57,6 +58,7 @@ dependencies {
     implementation("com.google.android.material:material:1.0.0")
     implementation("com.squareup.picasso:picasso:2.8")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
+
     // base widgets
     implementation ("com.hendraanggrian.appcompat:socialview:0.1")
 
