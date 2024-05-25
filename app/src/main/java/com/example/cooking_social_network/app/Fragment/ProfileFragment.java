@@ -200,6 +200,8 @@ public class ProfileFragment extends Fragment {
         });
 
         return view;
+
+
     }
 
     private void getSavedPosts() {
@@ -328,7 +330,7 @@ public class ProfileFragment extends Fragment {
         ref.child("following").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                following.setText(""+dataSnapshot.getChildrenCount());
+                following.setText("" + dataSnapshot.getChildrenCount());
             }
 
             @Override
