@@ -132,7 +132,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder> {
             }
         });
 
-        holder.username.setOnClickListener(new View.OnClickListener() {
+        holder.save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (holder.save.getTag().equals("save")){

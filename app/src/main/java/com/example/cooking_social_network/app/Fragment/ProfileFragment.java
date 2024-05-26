@@ -44,14 +44,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
     private RecyclerView recyclerViewSaves;
-    private PostAdapter postAdapterSaves;
+    private PhotoAdapter postAdapterSaves;
     private List<Post> mySavedPost;
 
     private RecyclerView recyclerView;
     private PhotoAdapter photoAdapter;
     private List<Post> myPhotoList;
 
-    private CircleImageView image_profile;
+    private CircleImageView imageProfile;
     private ImageView options;
     private TextView posts;
     private TextView followers;
@@ -59,8 +59,8 @@ public class ProfileFragment extends Fragment {
     private TextView fullname;
     private TextView bio;
     private TextView username;
-    private ImageButton my_fotos;
-    private ImageButton saved_fotos;
+/*    private ImageButton my_fotos;
+    private ImageButton saved_fotos;*/
 
     private ImageView myPictures;
     private ImageView savedPictures;
@@ -89,30 +89,30 @@ public class ProfileFragment extends Fragment {
         }
 
 
-        image_profile = view.findViewById(R.id.image_profile);
+        imageProfile = view.findViewById(R.id.image_profile);
         options = view.findViewById(R.id.options);
         posts = view.findViewById(R.id.posts);
         followers = view.findViewById(R.id.followers);
         following = view.findViewById(R.id.following);
         fullname = view.findViewById(R.id.fullname);
         bio = view.findViewById(R.id.bio);
-        my_fotos = view.findViewById(R.id.my_fotos);
+        myPictures = view.findViewById(R.id.my_pictures);
         username = view.findViewById(R.id.username);
-        saved_fotos = view.findViewById(R.id.saved_fotos);
+        savedPictures = view.findViewById(R.id.saved_pictures);
         editProfile = view.findViewById(R.id.edit_profile);
 
-        recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recycler_view_pictures);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
         myPhotoList = new ArrayList<>();
         photoAdapter = new PhotoAdapter(getContext(),myPhotoList);
         recyclerView.setAdapter(photoAdapter);
 
-        recyclerViewSaves = view.findViewById(R.id.recycler_view_save);
+        recyclerViewSaves = view.findViewById(R.id.recycler_view_saved);
         recyclerViewSaves.setHasFixedSize(true);
         recyclerViewSaves.setLayoutManager(new GridLayoutManager(getContext(),3));
         mySavedPost = new ArrayList<>();
-        postAdapterSaves = new PostAdapter(getContext(),mySavedPost);
+        postAdapterSaves = new PhotoAdapter(getContext(),mySavedPost);
         recyclerViewSaves.setAdapter(postAdapterSaves);
 
         userInfo();
@@ -156,7 +156,7 @@ public class ProfileFragment extends Fragment {
         recyclerView.setVisibility(View.VISIBLE);
         recyclerViewSaves.setVisibility(View.GONE);
 
-        my_fotos.setOnClickListener(new View.OnClickListener() {
+        myPictures.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 recyclerView.setVisibility(View.VISIBLE);
@@ -164,7 +164,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        saved_fotos.setOnClickListener(new View.OnClickListener() {
+        savedPictures.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 recyclerView.setVisibility(View.GONE);
@@ -257,7 +257,7 @@ public class ProfileFragment extends Fragment {
 
                     if (post.getPublisher().equals(profileID)){
                         myPhotoList.add(post);
-                    };
+                    }
                 }
 
                 Collections.reverse(myPhotoList);
@@ -318,7 +318,7 @@ public class ProfileFragment extends Fragment {
         ref.child("followers").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                followers.setText(""+dataSnapshot.getChildrenCount());
+                followers.setText("" + dataSnapshot.getChildrenCount());
             }
 
             @Override
@@ -346,7 +346,7 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
 
-                Picasso.get().load(user.getImageurl()).into(image_profile);
+                Picasso.get().load(user.getImageurl()).into(imageProfile);
                 username.setText(user.getUsername());
                 fullname.setText(user.getName());
                 bio.setText(user.getBio());
