@@ -62,8 +62,8 @@ public class ProfileFragment extends Fragment {
 /*    private ImageButton my_fotos;
     private ImageButton saved_fotos;*/
 
-    private ImageView myPictures;
-    private ImageView savedPictures;
+    private ImageButton myPictures;
+    private ImageButton savedPictures;
 
     private Button editProfile;
 
