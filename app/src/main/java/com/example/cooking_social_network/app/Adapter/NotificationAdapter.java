@@ -1,6 +1,7 @@
 package com.example.cooking_social_network.app.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         final Notification notification = mNotifications.get(position);
 
         getUser(holder.imageProfile, holder.username, notification.getUserid());
@@ -54,8 +54,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         if (notification.isPost()) {
             holder.postImage.setVisibility(View.VISIBLE);
             getPostImage(holder.postImage, notification.getPostid());
-        }
-        else {
+        } else {
             holder.postImage.setVisibility(View.GONE);
         }
 
@@ -66,18 +65,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
                             .edit().putString("postid", notification.getPostid()).apply();
 
-                    ((FragmentActivity)mContext).getSupportFragmentManager()
+                    ((FragmentActivity) mContext).getSupportFragmentManager()
                             .beginTransaction().replace(R.id.fragment_container, new PostDetailFragment()).commit();
                 } else {
                     mContext.getSharedPreferences("PROFILE", Context.MODE_PRIVATE)
                             .edit().putString("profileId", notification.getUserid()).apply();
 
-                    ((FragmentActivity)mContext).getSupportFragmentManager()
+                    ((FragmentActivity) mContext).getSupportFragmentManager()
                             .beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
                 }
             }
         });
-
     }
 
     @Override
@@ -85,7 +83,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         return mNotifications.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView imageProfile;
         public ImageView postImage;
@@ -102,38 +100,47 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }
     }
 
-    private void getPostImage(ImageView imageView, String postId){
-        FirebaseDatabase.getInstance().getReference().child("Posts").child(postId).addValueEventListener(new ValueEventListener() {
+    private void getPostImage(ImageView imageView, String postId) {
+        FirebaseDatabase.getInstance().getReference().child("Posts").child(postId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Post post = dataSnapshot.getValue(Post.class);
-                Picasso.get().load(post.getImageUrl()).placeholder(R.mipmap.ic_launcher).into(imageView);
+                if (post != null) {
+                    Picasso.get().load(post.getImageUrl()).placeholder(R.mipmap.ic_launcher).into(imageView);
+                } else {
+                    Log.e("NotificationAdapter", "Post is null for postId: " + postId);
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.e("NotificationAdapter", "Failed to load post image", error.toException());
             }
         });
     }
 
-    private void getUser(ImageView imageView, TextView textView, String userId){
-        FirebaseDatabase.getInstance().getReference().child("Users").child(userId).addValueEventListener(new ValueEventListener() {
+    private void getUser(ImageView imageView, TextView textView, String userId) {
+        FirebaseDatabase.getInstance().getReference().child("Users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
-                if(user.getImageurl().equals("default")) {
-                    imageView.setImageResource(R.mipmap.ic_launcher);
+                if (user != null) {
+                    if ("default".equals(user.getImageurl())) {
+                        imageView.setImageResource(R.mipmap.ic_launcher);
+                    } else {
+                        Picasso.get().load(user.getImageurl()).into(imageView);
+                    }
+                    textView.setText(user.getUsername());
                 } else {
-                    Picasso.get().load(user.getImageurl()).into(imageView);
+                    Log.e("NotificationAdapter", "User is null for userId: " + userId);
                 }
-                textView.setText(user.getUsername());
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.e("NotificationAdapter", "Failed to load user data", error.toException());
             }
         });
     }
 }
+

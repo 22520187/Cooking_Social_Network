@@ -171,7 +171,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, FollowersActivity.class);
-                intent.putExtra("id", post.getPublisher());
+                intent.putExtra("id", post.getPostId());
                 intent.putExtra("title", "likes");
                 mContext.startActivity(intent);
             }
