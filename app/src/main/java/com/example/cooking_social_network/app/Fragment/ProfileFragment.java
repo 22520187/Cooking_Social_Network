@@ -69,7 +69,7 @@ public class ProfileFragment extends Fragment {
 
     private FirebaseUser fUser;
 
-    String profileID;
+    String profileId;
 
 
     @Override
@@ -83,9 +83,9 @@ public class ProfileFragment extends Fragment {
         String data = getContext().getSharedPreferences("PROFILE", Context.MODE_PRIVATE).getString("profileId","none");
 
         if (data.equals("none")){
-            profileID = fUser.getUid();
+            profileId = fUser.getUid();
         } else {
-            profileID = data;
+            profileId = data;
         }
 
 
@@ -121,7 +121,7 @@ public class ProfileFragment extends Fragment {
         myPhotos();
         getSavedPosts();
 
-        if (profileID.equals(fUser.getUid())){
+        if (profileId.equals(fUser.getUid())){
             editProfile.setText("Edit Profile");
 
         } else {
@@ -138,15 +138,15 @@ public class ProfileFragment extends Fragment {
                 } else {
                     if (btnText.equals("follow")){
                         FirebaseDatabase.getInstance().getReference().child("Follow").child(fUser.getUid())
-                                .child("following").child(profileID).setValue(true);
+                                .child("following").child(profileId).setValue(true);
 
-                        FirebaseDatabase.getInstance().getReference().child("Follow").child(profileID)
+                        FirebaseDatabase.getInstance().getReference().child("Follow").child(profileId)
                                 .child("followers").child(fUser.getUid()).setValue(true);
                     } else {
                         FirebaseDatabase.getInstance().getReference().child("Follow").child(fUser.getUid())
-                                .child("following").child(profileID).removeValue();
+                                .child("following").child(profileId).removeValue();
 
-                        FirebaseDatabase.getInstance().getReference().child("Follow").child(profileID)
+                        FirebaseDatabase.getInstance().getReference().child("Follow").child(profileId)
                                 .child("followers").child(fUser.getUid()).removeValue();
                     }
                 }
@@ -176,7 +176,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), FollowersActivity.class);
-                intent.putExtra("id", profileID);
+                intent.putExtra("id", profileId);
                 intent.putExtra("title", "followers");
                 startActivity(intent);
             }
@@ -186,7 +186,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), FollowersActivity.class);
-                intent.putExtra("id", profileID);
+                intent.putExtra("id", profileId);
                 intent.putExtra("title", "followings");
                 startActivity(intent);
             }
@@ -255,7 +255,7 @@ public class ProfileFragment extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Post post = snapshot.getValue(Post.class);
 
-                    if (post.getPublisher().equals(profileID)){
+                    if (post.getPublisher().equals(profileId)){
                         myPhotoList.add(post);
                     }
                 }
@@ -276,7 +276,7 @@ public class ProfileFragment extends Fragment {
         FirebaseDatabase.getInstance().getReference().child("Follow").child(fUser.getUid()).child("following").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(profileID).exists()){
+                if (dataSnapshot.child(profileId).exists()){
                     editProfile.setText("following");
                 } else {
                     editProfile.setText("follow");
@@ -299,7 +299,7 @@ public class ProfileFragment extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Post post = snapshot.getValue(Post.class);
 
-                    if(post.getPublisher().equals(profileID)) counter++;
+                    if(post.getPublisher().equals(profileId)) counter++;
                 }
 
                 posts.setText(String.valueOf(counter));
@@ -313,7 +313,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void getFollowersAndFollowingCount() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("follow").child(profileID);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Follow").child(profileId);
 
         ref.child("followers").addValueEventListener(new ValueEventListener() {
             @Override
@@ -341,7 +341,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void userInfo() {
-        FirebaseDatabase.getInstance().getReference().child("Users").child(profileID).addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("Users").child(profileId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
