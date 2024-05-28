@@ -1,7 +1,9 @@
 package com.example.cooking_social_network.app;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -61,6 +63,7 @@ public class FollowersActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mUsers = new ArrayList<>();
         userAdapter = new UserAdapter(this, mUsers, false);
+        recyclerView.setAdapter(userAdapter);
 
         idList = new ArrayList<>();
 
@@ -126,14 +129,15 @@ public class FollowersActivity extends AppCompatActivity {
                 idList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     idList.add(snapshot.getKey());
-                }
 
+                }
+                Log.d("FollowersActivity", "Likes count: " + idList.size());
                 showUsers();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.e("FollowersActivity", "Failed to load likes", error.toException());
             }
         });
     }

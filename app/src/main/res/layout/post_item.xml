@@ -41,7 +41,7 @@
                 android:layout_gravity="center_vertical"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryDark"
+                style="@style/TEXT"
                 android:layout_margin="5dp"
                 android:text="Username" />
 
@@ -102,7 +102,7 @@
             android:layout_marginStart="10dp"
             android:textStyle="bold"
             android:id="@+id/author"
-            android:textColor="@color/colorPrimaryDark"/>
+            style="@style/TEXT"/>
 
         <com.hendraanggrian.appcompat.socialview.widget.SocialTextView          android:layout_width="wrap_content"
             android:layout_height="wrap_content"
