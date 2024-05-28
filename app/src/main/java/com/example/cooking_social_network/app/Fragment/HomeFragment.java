@@ -29,6 +29,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerViewPosts;
     private PostAdapter postAdapter;
     private List<Post> postList;
+
     private List<String> followingList;
 
     @Override

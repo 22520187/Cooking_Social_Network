@@ -11,9 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import com.example.cooking_social_network.R;
 import com.google.android.gms.tasks.Continuation;
@@ -36,6 +41,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class PostActivity extends AppCompatActivity {
 
