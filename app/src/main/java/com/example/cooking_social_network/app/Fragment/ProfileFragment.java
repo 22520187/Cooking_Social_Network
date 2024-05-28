@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.example.cooking_social_network.R;
 import com.example.cooking_social_network.app.Adapter.PhotoAdapter;
 import com.example.cooking_social_network.app.Adapter.PostAdapter;
+import com.example.cooking_social_network.app.EditProfileActiviy;
 import com.example.cooking_social_network.app.FollowersActivity;
 import com.example.cooking_social_network.app.Model.Post;
 import com.example.cooking_social_network.app.Model.User;
@@ -134,7 +135,7 @@ public class ProfileFragment extends Fragment {
                 String btnText = editProfile.getText().toString();
 
                 if (btnText.equals("Edit Profile")){
-                    //GOTO edit activity
+                    startActivity(new Intent(getContext(), EditProfileActiviy.class));
                 } else {
                     if (btnText.equals("follow")){
                         FirebaseDatabase.getInstance().getReference().child("Follow").child(fUser.getUid())
