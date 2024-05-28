@@ -26,13 +26,15 @@
             android:id="@+id/username"
             android:text="Username"
             android:maxLines="1"
+            style="@style/TEXT"
             android:textStyle="bold"
-            android:textColor="@color/design_default_color_primary_dark" />
+            />
         
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/fullname"
+            style="@style/TEXT"
             android:text="Full name"
             android:maxLines="1" />
     </LinearLayout>

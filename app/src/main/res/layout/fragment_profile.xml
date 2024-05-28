@@ -89,7 +89,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/posts"
-                                android:textColor="@color/colorPrimaryDark"
+                                style="@style/TEXT"
                                 android:layout_gravity="center"
                                 android:textSize="18sp"
                                 android:textStyle="bold"/>
@@ -98,7 +98,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="12dp"
-                                android:text="posts"/>
+                                android:text="posts"
+                                style="@style/TEXT"/>
 
                         </LinearLayout>
 
@@ -112,7 +113,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/followers"
-                                android:textColor="@color/colorPrimaryDark"
+                                style="@style/TEXT"
                                 android:layout_gravity="center"
                                 android:textSize="18sp"
                                 android:textStyle="bold"/>
@@ -121,7 +122,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="12dp"
-                                android:text="followers"/>
+                                android:text="followers"
+                                style="@style/TEXT"
+                                />
 
                         </LinearLayout>
 
@@ -135,7 +138,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/following"
-                                android:textColor="@color/colorPrimaryDark"
+                                style="@style/TEXT"
                                 android:layout_gravity="center"
                                 android:textSize="18sp"
                                 android:textStyle="bold"/>
@@ -144,7 +147,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="12dp"
-                                android:text="following"/>
+                                android:text="following"
+                                style="@style/TEXT"
+
+                                />
 
                         </LinearLayout>
 
@@ -175,7 +181,8 @@
                     android:id="@+id/fullname"
                     android:textStyle="bold"
                     android:textSize="16sp"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/TEXT"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
