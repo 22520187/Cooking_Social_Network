@@ -5,63 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    style="@style/SCREEN"
     tools:context=".app.OptionsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/toolbar">
+        android:id="@+id/toolbar"
+        android:background="?android:attr/windowBackground"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Settings"
-            style="@style/TEXT"
-            android:textSize="30dp"
-            android:gravity="center" />
-    </androidx.appcompat.widget.Toolbar>
-    <LinearLayout
-        android:id="@+id/dark_mode"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal" >
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/settings"
-            android:text="Dark mode"
-            style="@style/TEXT"
-            android:padding="10dp"
-            android:gravity="center_vertical"
-            android:layout_margin="10dp"
-            android:textSize="18sp"/>
-
-
-        <Switch
-            android:id="@+id/switcher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/icon_gradient"
-            tools:ignore="UseSwitchCompatOrMaterialXml"
-            android:gravity="center" />
-    </LinearLayout>
-
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_marginHorizontal="50dp"
-        android:layout_marginTop="25dp"
-        android:id="@+id/logout"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/BUTTON"
-        android:textColor="@color/white"
-        android:text="@string/log_out"
-        android:background="@drawable/logout_gradient" />
+        android:id="@+id/settings"
+        android:text="@string/settings"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_margin="10dp"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/logout"
+        android:text="@string/Log_out"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_margin="10dp"
+        android:textSize="18sp"/>
 
 </LinearLayout>
