@@ -37,6 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/options"
+                    style="@style/ImageButton"
                     android:src="@drawable/ic_options"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="15dp"/>
@@ -209,21 +210,20 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:id="@+id/my_pictures"
-                    android:tint="@color/dark_mode_image_tint"
-                    android:src="@drawable/ic_grid"
-                    style="?android:attr/buttonBarButtonStyle"/>
+                    style="@style/ImageButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_grid" />
 
                 <ImageButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:id="@+id/saved_pictures"
-                    android:src="@drawable/ic_save"
-                    style="?android:attr/buttonBarButtonStyle"/>
+                    style="@style/ImageButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_save" />
 
             </LinearLayout>
 

@@ -20,7 +20,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_search"/>
+                android:src="@drawable/ic_search"
+                style="@style/ImageButton"/>
 
             <com.hendraanggrian.appcompat.socialview.widget.SocialAutoCompleteTextView
                 android:layout_width="match_parent"

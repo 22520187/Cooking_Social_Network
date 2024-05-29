@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:src="@drawable/ic_more"
+        style="@style/ImageButton"
         android:layout_margin="16dp"
         android:id="@+id/more"/>
 
@@ -69,6 +70,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/ic_like"
+                style="@style/Like"
                 android:id="@+id/like"/>
 
             <ImageView
@@ -77,12 +79,14 @@
                 android:src="@drawable/ic_comment"
                 android:layout_toEndOf="@id/like"
                 android:layout_marginStart="10dp"
+                style="@style/ImageButton"
                 android:id="@+id/comment"/>
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/ic_save"
+                style="@style/ImageButton"
                 android:layout_alignParentEnd="true"
                 android:id="@+id/save"/>
 
