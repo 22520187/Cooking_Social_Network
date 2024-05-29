@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -174,6 +178,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder> {
                 intent.putExtra("id", post.getPostId());
                 intent.putExtra("title", "likes");
                 mContext.startActivity(intent);
+            }
+        });
+
+        holder.more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(mContext,holder.more);
+                popupMenu.inflate(R.menu.post_menu);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (item.getItemId() == R.id.action_hide_post) {
+                            mPosts.remove(holder.getAdapterPosition());
+                            notifyItemRemoved(holder.getAdapterPosition());
+                            notifyItemRangeChanged(holder.getAdapterPosition(), mPosts.size());
+                            return  true;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
             }
         });
     }
