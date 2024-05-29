@@ -9,23 +9,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bar"
-        android:background="?android:attr/windowBackground">
+        style="@style/SCREEN">
 
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/toolbar"
-            android:background="?android:attr/windowBackground">
+            style="@style/SCREEN">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                style="@style/SCREEN">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:text="Photo"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/TEXT"/>
             </RelativeLayout>
 
         </androidx.appcompat.widget.Toolbar>
@@ -36,5 +37,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/bar"
+        style="@style/SCREEN"
         android:id="@+id/recycler_view"/>
 </RelativeLayout>

@@ -9,13 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bar"
-        android:background="?android:attr/windowBackground">
+        style="@style/SCREEN">
 
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/toolbar"
-            android:background="?android:attr/windowBackground">
+            style="@style/SCREEN">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/search_bar"
-                android:background="@android:color/transparent"
+                style="@style/TEXT"
                 android:hint="Search..."
                 android:layout_marginStart="10dp"/>
 

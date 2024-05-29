@@ -9,18 +9,20 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
+        style="@style/SCREEN"
+
         android:id="@+id/bar">
 
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:attr/windowBackground"
+            style="@style/SCREEN"
             android:id="@+id/toolbar">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                style="@style/SCREEN">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -29,7 +31,7 @@
                     android:maxLines="1"
                     android:textStyle="bold"
                     android:id="@+id/username"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/TEXT"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -190,7 +192,7 @@
                     android:layout_marginTop="5dp"
                     android:id="@+id/bio"
                     android:maxLines="5"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    style="@style/TEXT"/>
 
             </LinearLayout>
 
@@ -200,8 +202,10 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="-5dp"
+                style="@style/SCREEN"
+
                 android:id="@+id/last_bar"
-                android:background="@drawable/button_black"
+
                 android:orientation="horizontal">
 
                 <ImageButton
@@ -209,6 +213,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:id="@+id/my_pictures"
+                    android:tint="@color/dark_mode_image_tint"
                     android:src="@drawable/ic_grid"
                     style="?android:attr/buttonBarButtonStyle"/>
 
@@ -225,6 +230,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:id="@+id/recycler_view_pictures"/>
 
             <androidx.recyclerview.widget.RecyclerView

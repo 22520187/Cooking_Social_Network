@@ -122,6 +122,7 @@ public class ProfileFragment extends Fragment {
         myPhotos();
         getSavedPosts();
 
+
         if (profileId.equals(fUser.getUid())){
             editProfile.setText("Edit Profile");
 
