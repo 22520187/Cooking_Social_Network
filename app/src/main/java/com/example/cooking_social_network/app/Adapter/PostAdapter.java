@@ -215,7 +215,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder> {
         public ImageView like;
         public ImageView comment;
         public ImageView save;
-        public ImageButton more;
+        public ImageView more;
 
         public TextView username;
         public TextView noOfLikes;
