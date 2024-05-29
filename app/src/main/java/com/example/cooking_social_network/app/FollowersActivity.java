@@ -47,7 +47,7 @@ public class FollowersActivity extends AppCompatActivity {
         title = intent.getStringExtra("title");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        /*setSupportActionBar(toolbar);*/
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

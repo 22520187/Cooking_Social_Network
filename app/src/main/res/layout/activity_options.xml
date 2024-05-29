@@ -12,6 +12,11 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_back_foreground"
+            android:id="@+id/ic_back" />
 
         <TextView
             style="@style/TEXT"
@@ -20,6 +25,8 @@
             android:gravity="center"
             android:text="Settings"
             android:textSize="30dp" />
+
+
 
     </androidx.appcompat.widget.Toolbar>
 

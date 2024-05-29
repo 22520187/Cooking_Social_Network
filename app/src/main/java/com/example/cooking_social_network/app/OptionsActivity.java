@@ -52,9 +52,9 @@ public class OptionsActivity extends AppCompatActivity {
         switcher = findViewById(R.id.switcher);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        /*setSupportActionBar(toolbar);*/
         getSupportActionBar().setTitle("Options");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        /*getSupportActionBar().setDisplayHomeAsUpEnabled(false);*/
 
         setThemeBasedOnPreference();
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
