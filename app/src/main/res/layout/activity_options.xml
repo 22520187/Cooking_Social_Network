@@ -17,10 +17,10 @@
             style="@style/TEXT"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Settings"
-            android:textSize="30dp" />
-
+            android:gravity="center_vertical"
+            android:text="Setting"
+            android:textSize="30dp"
+            android:paddingStart="75dp" />
 
 
     </androidx.appcompat.widget.Toolbar>

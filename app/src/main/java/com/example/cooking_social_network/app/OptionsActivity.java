@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -46,7 +47,6 @@ public class OptionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
-
         settings = findViewById(R.id.settings);
         logOut = findViewById(R.id.logout);
         switcher = findViewById(R.id.switcher);
@@ -55,6 +55,8 @@ public class OptionsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Options");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
 
         setThemeBasedOnPreference();
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -73,22 +75,28 @@ public class OptionsActivity extends AppCompatActivity {
             }
         });
 
-        switcher.setOnClickListener(new View.OnClickListener() {
+        switcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                if (darkMode) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    darkMode = false;
-                    editor.putBoolean("dark_mode", false);
-                } else {
+                if (isChecked) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     darkMode = true;
                     editor.putBoolean("dark_mode", true);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    darkMode = false;
+                    editor.putBoolean("dark_mode", false);
                 }
+
                 editor.apply();
+                recreate();
             }
         });
 
+        // Xóa trạng thái dark_mode khi người dùng đăng nhập lại
+        SharedPreferences.Editor editor = getSharedPreferences("settings", MODE_PRIVATE).edit();
+        editor.remove("dark_mode").apply();
     }
+
 }
