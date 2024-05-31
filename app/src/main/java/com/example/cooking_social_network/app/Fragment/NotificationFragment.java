@@ -15,6 +15,7 @@ import com.example.cooking_social_network.R;
 import com.example.cooking_social_network.app.Adapter.NotificationAdapter;
 import com.example.cooking_social_network.app.Model.Notification;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -48,9 +49,11 @@ public class NotificationFragment extends Fragment {
         return view;
     }
     private void readNotifications() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase.getInstance().getReference().child("Notifications").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                notificationList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     notificationList.add(snapshot.getValue(Notification.class));
                 }

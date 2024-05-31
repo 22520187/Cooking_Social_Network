@@ -141,6 +141,8 @@ public class CommentActivity extends AppCompatActivity {
         map.put("comment", addComment.getText().toString());
         map.put("publisher", fUser.getUid());
 
+        addNotification();
+
         addComment.setText("");
 
         ref.child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -154,6 +156,19 @@ public class CommentActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void addNotification(){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(authorId);
+
+        HashMap<String, Object> map = new HashMap<>();
+
+        map.put("userId", fUser.getUid());
+        map.put("text", "commented: "+addComment.getText().toString());
+        map.put("postId", "");
+        map.put("isPost", true);
+
+        reference.push().setValue(map);
     }
 
     private void getUserImage() {

@@ -38,6 +38,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -144,6 +145,7 @@ public class ProfileFragment extends Fragment {
 
                         FirebaseDatabase.getInstance().getReference().child("Follow").child(profileId)
                                 .child("followers").child(fUser.getUid()).setValue(true);
+                        addNotification();
                     } else {
                         FirebaseDatabase.getInstance().getReference().child("Follow").child(fUser.getUid())
                                 .child("following").child(profileId).removeValue();
@@ -329,6 +331,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+
         ref.child("following").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -340,6 +343,19 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+    }
+
+    private void addNotification(){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(profileId);
+
+        HashMap<String, Object> map = new HashMap<>();
+
+        map.put("userId", fUser.getUid());
+        map.put("text", "started following you.");
+        map.put("postId", "");
+        map.put("isPost", false);
+
+        reference.push().setValue(map);
     }
 
     private void userInfo() {

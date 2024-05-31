@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hendraanggrian.appcompat.socialview.widget.SocialTextView;
@@ -312,14 +313,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.Viewholder> {
         });
     }
 
-    private void addNotification(String postId, String publisherId){
+    private void addNotification(String postId, String userId){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(userId);
+
         HashMap<String, Object> map = new HashMap<>();
 
-        map.put("userid", publisherId);
+        map.put("userId", firebaseUser.getUid());
         map.put("text", "liked your post.");
-        map.put("postid", postId);
+        map.put("postId", postId);
         map.put("isPost", true);
 
-        FirebaseDatabase.getInstance().getReference().child("Notifications").child(firebaseUser.getUid()).push().setValue(map);
+        reference.push().setValue(map);
     }
 }
